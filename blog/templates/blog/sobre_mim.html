@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+	<div class="content conteiner">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="post">
+					<div class="date">
+						<p>{{ sobre_auth.created_date }}</p>
+					</div>
+				<h1>{{ sobre_auth.title }}</h1>
+				<p>{{ sobre_auth.text  }}</p>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+{% endblock content %}

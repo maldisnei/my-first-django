@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="content container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-8 col-md-8">
+				
+			{% for post in postes %}
+				<div class='post'>
+					<div class="date">
+						<p>{{ post.published_date }}</p>
+					</div>	
+					<h2><a href="{{ post.get_absolute_url  }}">{{ post.title }}</a></h2>
+					{% autoescape off %}
+						{{ post.texto }}
+					{% endautoescape %}
+					<a href="{% url 'blog.views.detail' slug=post.slug %}">Comments: {{ post.approved_comments.count }}</a>
+				</div>		
+			{% endfor %}
+		</div>	
+				
+	</div>
+</div>
+
+	
+{% endblock content %}
+

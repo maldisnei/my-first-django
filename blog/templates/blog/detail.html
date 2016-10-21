@@ -1,0 +1,62 @@
+{% extends 'blog/base.html' %}
+
+
+{% block content %}
+	<div class=" content container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-8 col-md-8">
+				{% if user.is_authenticated %}
+				<a class="btn btn-default" href="{% url 'post_remove' slug=post.slug %}"><span class="glyphicon glyphicon-remove"></span></a>
+				<a class="btn btn-default" href="{% url 'post_edit' slug=post.slug %}"><span class="glyphicon glyphicon-pencil"></span></a>
+				{% endif %}
+
+				{% if post.published_date %}
+					<div class="post">
+						<div class="data">
+
+							<p>{{ post.published_date }}</p>
+						</div>
+					{% else %}
+						<a class="btn btn-default" href="{% url 'blog.views.post_published' slug=post.slug %}">publicar</a>
+					{% endif %}
+
+						<h1>{{ post.title }}</h1>
+
+						{% autoescape off %}
+							{{ post.texto }}
+						{% endautoescape %}
+
+						<a class="btn btn-default" href="{% url 'comment' slug=post.slug %}">	add_comentáro</a>
+					</div>
+			</div>
+		</div>
+	</div>
+<hr>
+
+{% for comment in post.comments.all %}
+	{% if user.is_authenticated or comment.approved_comment %}
+	<div class="container">
+		<div class="row">
+		
+				<div class="col-md-8">
+					<div class="data">
+						<p>criado em: {{ comment.created_date }}</p>
+					</div>
+					{% if not comment.approved_comment %}
+						<a class="btn btn-default" href="{% url 'comment_approve' pk=comment.pk %}"><span class="glyphicon glyphicon-ok"></span></a>
+						<a class="btn btn-default" href="{% url 'comment_remove' pk=comment.pk %}"><span class="glyphicon glyphicon-remove"></span></a>
+					{% endif %}
+					<strong>autor: {{ comment.author }}</strong>
+					<p>{{ comment.testo|linebreaks }}</p>
+				</div>
+			</div>
+			
+	</div>
+	{% endif %}
+
+{% endfor %}
+
+
+{% endblock %}
+
+
